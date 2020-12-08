@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+        }
+
+        div {
+            width: 200px;
+            height: 200px;
+            border-width: 2px;
+            border-style: solid;
+            margin-left: 20px;
+            float: left;
+            z-index: 10;
+        }
+
+        .box1 {
+            border-color: red;
+            border-width: 2px;
+            border-style: solid;
+        }
+
+        .box2 {
+            border-color: green;
+        }
+
+        .box3 {
+            border-color: blue;
+        }
+
+        p {
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            margin-bottom: 10px;
+            background: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box1">
+        <p draggable="true">p1标签的内容</p>
+        <p draggable="true">p2标签的内容</p>
+    </div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+
+    <script>
+        var div = document.querySelectorAll("div")
+        var p = document.querySelectorAll("p")
+        var body = document.querySelector("body")
+
+        var current;
+
+        p.forEach(function (item) {
+            item.ondragstart = function () {
+                current = this
+
+                this.parentNode.style.borderWidth = 5 + "px";
+
+                this.style.opacity = 0.5;
+            }
+
+            item.ondragend = function () {
+                this.style.opacity = 1;
+
+            }
+        })
+
+        div.forEach(function (item) {
+
+            item.ondragover = function (e) {
+                e.preventDefault();
+            }
+
+            item.ondrop = function () {
+                this.appendChild(current);
+                var boxs = this.parentNode.children;
+                for (var i = 0; i < boxs.length; i++) {
+                    boxs[i].style.borderWidth = 2 + "px";
+                }
+            }
+        })
+
+
+    </script>
+</body>
+
+</html>
